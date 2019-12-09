@@ -59,7 +59,7 @@ const AppContainer = createBottomTabNavigator(
       }
     }
   },
-  { initialRouteName: "Randevu" }
+  { initialRouteName: "Hesabım" }
 );
 
 const styles = StyleSheet.create({

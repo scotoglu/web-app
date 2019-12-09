@@ -20,11 +20,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "android": {
+      "package": "com.scoto.PhotoFs"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.scoto.PhotoFs"
+    },
+    "description": ""
   }
 }

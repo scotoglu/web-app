@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import * as Progress from "react-native-progress";
+import HeaderBar from "../components/HeaderBar";
 export default class Profile extends Component {
   constructor() {
     super();
@@ -15,6 +16,7 @@ export default class Profile extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <HeaderBar />
         <View style={styles.TextContainer}>
           <Text style={styles.name}>{this.state.user.name}</Text>
         </View>

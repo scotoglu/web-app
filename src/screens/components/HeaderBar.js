@@ -18,10 +18,13 @@ export default class HeaderBar extends Component {
     return (
       <Header
         containerStyle={{
+          backgroundColor: "white",
+          borderColor: "black",
+          borderWidth: 3,
           borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20
+          borderBottomRightRadius: 20,
+          marginBottom: 2
         }}
-        leftComponent={{ icon: "camera", color: "#fff" }}
         centerComponent={<CustomHeader />}
       />
     );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, KeyboardAvoidingView, View } from "react-native";
-import { Input, Button, Text } from "react-native-elements";
+import { Input, Button, Text, Alert } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HeaderBar from "../components/HeaderBar";
 
@@ -35,7 +35,11 @@ export default class ContactRequest extends Component {
   };
   onButtonPress = () => {
     console.log(this.state.name);
-    alert("Talebiniz Başarıyla İletilmiştir.");
+    Alert.alert(
+      "Randevu Talebi",
+      "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+      [{ text: "Tamam" }]
+    );
     this.setState({ name: "", phone: "", mail: "", message: "" });
   };
   render() {
