@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Home from "./src/screens/home/Home";
 import ContactRequest from "./src/screens/contactRequest/ContactRequest";
 import Appointment from "./src/screens/appointment/Appointment";
-import Works from "./src/screens/works/Works";
+import Samples from "./src/screens/works/Works";
 import Login from "./src/screens/login/Login";
 import UserAccount from "./src/screens/accounts/UserAccount";
 const AppContainer = createBottomTabNavigator(
@@ -57,16 +57,23 @@ const AppContainer = createBottomTabNavigator(
           <Icon name="user" color={tintColor} size={24}></Icon>
         )
       }
+    },
+    Örnekler: {
+      screen: Samples,
+      navigationOptions: {
+        tabBarLabel: "Örnekler"
+      }
     }
   },
-  { initialRouteName: "Hesabım" }
+  { initialRouteName: "Anasayfa" }
 );
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#ecf0f1"
   }
 });
 export default createAppContainer(AppContainer);

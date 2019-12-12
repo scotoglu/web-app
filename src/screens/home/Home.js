@@ -24,6 +24,7 @@ export default class Home extends Component {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView scrollEventThrottle={16}>
           <Headerbar />
+          {/**Changing background color will change entire page color */}
           <View style={{ flex: 1, backgroundColor: "white", marginTop: 10 }}>
             <Text
               style={{
@@ -40,22 +41,38 @@ export default class Home extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                <Category
-                  name="Dış Çekim"
-                  imageUrl={require("../../../assets/home.jpg")}
-                />
-                <Category
-                  name="Özel Günler"
-                  imageUrl={require("../../../assets/experiences.jpg")}
-                />
-                <Category
-                  name="Doğum"
-                  imageUrl={require("../../../assets/restaurant.jpg")}
-                />
-                <Category
-                  name="Düğün-Nişan"
-                  imageUrl={require("../../../assets/restaurant.jpg")}
-                />
+                <TouchableOpacity
+                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
+                >
+                  <Category
+                    name="Dış Çekim"
+                    imageUrl={require("../../../assets/home.jpg")}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
+                >
+                  <Category
+                    name="Özel Günler"
+                    imageUrl={require("../../../assets/experiences.jpg")}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
+                >
+                  <Category
+                    name="Doğum"
+                    imageUrl={require("../../../assets/restaurant.jpg")}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
+                >
+                  <Category
+                    name="Düğün-Nişan"
+                    imageUrl={require("../../../assets/restaurant.jpg")}
+                  />
+                </TouchableOpacity>
               </ScrollView>
             </View>
             <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
@@ -143,9 +160,40 @@ export default class Home extends Component {
               <View style={{ flexDirection: "row" }}>
                 <Icon name="map-marker" size={25}></Icon>
                 <Text
-                  style={{ marginLeft: 5, fontWeight: "100", fontSize: 15 }}
+                  style={{
+                    marginLeft: 5,
+                    fontWeight: "100",
+                    fontSize: 15,
+                    fontStyle: "italic  "
+                  }}
                 >
                   Güzelyalı, 25-1, Uğur Mumcu Blv., 01170 Çukurova/Adana
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 3 }}>
+                <Icon name="phone" size={25}></Icon>
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontWeight: "100",
+                    fontSize: 15,
+                    fontStyle: "italic"
+                  }}
+                >
+                  05065151290
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 3 }}>
+                <Icon name="instagram" size={25}></Icon>
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontWeight: "100",
+                    fontSize: 15,
+                    fontStyle: "italic"
+                  }}
+                >
+                  @dlsinemkobaner
                 </Text>
               </View>
             </View>

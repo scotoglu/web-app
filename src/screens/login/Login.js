@@ -3,17 +3,19 @@ import { TextInput, StyleSheet, View, Text } from "react-native";
 import { Input } from "react-native-elements";
 export default class Login extends Component {
   render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Login Screen</Text>
-      </View>
-    );
+    return class Login extends Component {
+      constructor(props) {
+        super(props);
+      }
+      render() {
+        return (
+          <View>
+            <Text>afaef</Text>
+          </View>
+        );
+      }
+    };
   }
 }
 
-const styles = StyleSheet.create({
-  Input: {
-    height: 50,
-    paddingHorizontal: 20
-  }
-});
+const styles = StyleSheet.create({});

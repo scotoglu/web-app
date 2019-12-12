@@ -117,11 +117,17 @@ export default class Appointment extends Component {
               placeholder="Mesajınız"
               leftIcon={<Icon name="envelope" size={24} color="black" />}
             />
-            <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                borderBottomWidth: 2,
+                borderColor: "#bdc3c7"
+              }}
+            >
               <Icon
                 name="chevron-down"
                 size={24}
-                style={{ marginRight: "15%", marginTop: 5 }}
+                style={{ marginRight: "13%", marginTop: 5 }}
               ></Icon>
               <Picker
                 selectedValue={this.state.photoType}
@@ -157,7 +163,13 @@ export default class Appointment extends Component {
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: "center", justifyContent: "center" },
-  inputContainerStyle: { marginBottom: 5, marginLeft: 10, marginRight: 10 },
+  inputContainerStyle: {
+    marginBottom: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    borderColor: "#bdc3c7",
+    borderBottomWidth: 2
+  },
   inputStyle: {
     marginLeft: 5
   },

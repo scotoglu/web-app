@@ -11,6 +11,8 @@ import {
 import { Input } from "react-native-elements";
 import Profile from "./Profile";
 import Icon from "react-native-vector-icons/FontAwesome";
+import HeaderBar from "../components/HeaderBar";
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -18,13 +20,20 @@ class Login extends Component {
   render() {
     return (
       <KeyboardAvoidingView behavior="padding">
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingVertical: 5,
+            paddingHorizontal: 40
+          }}
+        >
           <Image
             source={require("../../../assets/logov3.jpg")}
             style={styles.Image}
           ></Image>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", marginTop: 5 }}>
           <Input
             keyboardType="email-address"
             inputStyle={{ marginLeft: 5 }}
@@ -62,7 +71,7 @@ class Login extends Component {
               style={{
                 textAlign: "right",
                 fontSize: 12,
-                fontWeight: "50"
+                fontWeight: "100"
               }}
             >
               Şifremi Unuttum
@@ -89,10 +98,12 @@ export default class UserAccount extends Component {
   };
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
         {/* {this.state.isSignIn ? <HeaderBar /> : null} */}
         {this.state.isSignIn ? (
-          <Profile />
+          <View>
+            <Profile />
+          </View>
         ) : (
           <Login updateSigned={this.updateSigned} />
         )}
@@ -104,7 +115,7 @@ export default class UserAccount extends Component {
 const styles = StyleSheet.create({
   logTextInputs: {},
   Image: {
-    width: "50%",
+    width: "60%",
     height: "50%",
     marginBottom: 20
   }

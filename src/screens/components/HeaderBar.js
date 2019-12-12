@@ -20,10 +20,9 @@ export default class HeaderBar extends Component {
         containerStyle={{
           backgroundColor: "white",
           borderColor: "black",
-          borderWidth: 3,
+          borderWidth: 1,
           borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-          marginBottom: 2
+          borderBottomRightRadius: 20
         }}
         centerComponent={<CustomHeader />}
       />

@@ -17,13 +17,19 @@ export default class DateAppo extends Component {
   };
   render() {
     return (
-      <View style={{ flexDirection: "row", marginTop: 5 }}>
-        <View style={{ marginTop: 10, marginRight: 10 }}>
-          <Icon name="calendar" size={24}></Icon>
-        </View>
-        <View>
+      <View style={{ flexDirection: "column", marginTop: 5 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            borderBottomWidth: 2,
+            borderColor: "#bdc3c7"
+          }}
+        >
+          <View style={{ marginTop: 10, marginRight: 30 }}>
+            <Icon name="calendar" size={24}></Icon>
+          </View>
           <DatePicker
-            style={{ width: 120 }}
+            style={{ width: 100 }}
             date={this.state.date} //initial date from state
             mode="date" //The enum of date, datetime and time
             placeholder="Tarih"
@@ -31,6 +37,12 @@ export default class DateAppo extends Component {
             confirmBtnText="Onayla"
             cancelBtnText="İptal"
             customStyles={{
+              placeholderText: {
+                textAlign: "center",
+                fontSize: 16,
+                color: "black",
+                fontWeight: "200"
+              },
               dateIcon: {
                 // position: "absolute",
                 // left: 0,
@@ -40,8 +52,7 @@ export default class DateAppo extends Component {
                 height: 0
               },
               dateInput: {
-                borderWidth: 0,
-                borderBottomWidth: 2
+                borderWidth: 0
               },
               dateText: {
                 fontWeight: "200"
@@ -52,16 +63,28 @@ export default class DateAppo extends Component {
             }}
           />
         </View>
-        <Picker
-          style={{ width: "30%", height: 20 }}
-          selectedValue={this.state.approvedTime}
-          onValueChange={this.handleTime}
+        <View
+          style={{
+            flexDirection: "row",
+            borderBottomWidth: 2,
+            borderColor: "#bdc3c7",
+            marginTop: 10
+          }}
         >
-          <Picker.Item label="Saatler" value="Saatler"></Picker.Item>
-          <Picker.Item label="8.00-10.30" value="8.00-10.30"></Picker.Item>
-          <Picker.Item label="10.45-13.00" value="10.45-13.00"></Picker.Item>
-          <Picker.Item label="16.00-18.00" value="16.00-18.00"></Picker.Item>
-        </Picker>
+          <View style={{ marginRight: 40 }}>
+            <Icon name="clock-o" size={24}></Icon>
+          </View>
+          <Picker
+            style={{ width: 200, height: 20, marginLeft: 10 }}
+            selectedValue={this.state.approvedTime}
+            onValueChange={this.handleTime}
+          >
+            <Picker.Item label="Saatler" value="Saatler"></Picker.Item>
+            <Picker.Item label="8.00-10.30" value="8.00-10.30"></Picker.Item>
+            <Picker.Item label="10.45-13.00" value="10.45-13.00"></Picker.Item>
+            <Picker.Item label="16.00-18.00" value="16.00-18.00"></Picker.Item>
+          </Picker>
+        </View>
       </View>
     );
   }

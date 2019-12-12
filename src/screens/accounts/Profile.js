@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View } from "react-native";
-import * as Progress from "react-native-progress";
-import HeaderBar from "../components/HeaderBar";
+import { Text, StyleSheet, View, Image } from "react-native";
+import { Header } from "react-native-elements";
 export default class Profile extends Component {
   constructor() {
     super();
@@ -15,8 +14,27 @@ export default class Profile extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <HeaderBar />
+      <View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 20,
+            borderBottomWidth: 1,
+            borderBottomLeftRadius: 5,
+            borderBottomRightRadius: 5
+          }}
+        >
+          <Image
+            source={require("../../../assets/logov3.jpg")}
+            style={{
+              width: 70,
+              height: 70,
+              borderRadius: 5,
+              marginVertical: 2
+            }}
+          ></Image>
+        </View>
         <View style={styles.TextContainer}>
           <Text style={styles.name}>{this.state.user.name}</Text>
         </View>
