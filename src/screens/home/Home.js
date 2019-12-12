@@ -114,7 +114,7 @@ export default class Home extends Component {
                     fontSize: 20,
                     borderWidth: 2,
                     borderColor: "#ecf0f1",
-                    paddingHorizontal: 15,
+                    paddingHorizontal: 35,
                     borderRadius: 5
                   }}
                 >
@@ -164,7 +164,7 @@ export default class Home extends Component {
                     marginLeft: 5,
                     fontWeight: "100",
                     fontSize: 15,
-                    fontStyle: "italic  "
+                    fontStyle: "italic"
                   }}
                 >
                   Güzelyalı, 25-1, Uğur Mumcu Blv., 01170 Çukurova/Adana

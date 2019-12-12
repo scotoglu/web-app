@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, YellowBox } from "react-native";
 
-/*Ekranda çıkan uyarıları gizler. */
+/*Ekranda çıkan uyarıları gizler.Kod uyarıları!!! */
 /*--------------------------------- */
 YellowBox.ignoreWarnings(["Warning: ..."]);
 console.disableYellowBox = true;
@@ -16,7 +16,6 @@ import Home from "./src/screens/home/Home";
 import ContactRequest from "./src/screens/contactRequest/ContactRequest";
 import Appointment from "./src/screens/appointment/Appointment";
 import Samples from "./src/screens/works/Works";
-import Login from "./src/screens/login/Login";
 import UserAccount from "./src/screens/accounts/UserAccount";
 const AppContainer = createBottomTabNavigator(
   {
@@ -65,7 +64,7 @@ const AppContainer = createBottomTabNavigator(
       }
     }
   },
-  { initialRouteName: "Anasayfa" }
+  { initialRouteName: "Hesabım" }
 );
 
 const styles = StyleSheet.create({

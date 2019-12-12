@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, KeyboardAvoidingView, View } from "react-native";
-import { Input, Button, Text, Alert } from "react-native-elements";
+import { StyleSheet, KeyboardAvoidingView, View, Alert } from "react-native";
+import { Input, Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HeaderBar from "../components/HeaderBar";
 
@@ -13,6 +13,7 @@ export default class ContactRequest extends Component {
       mail: "",
       message: ""
     };
+
     this.handleName = this.handleName.bind(this);
     this.handlePhone = this.handlePhone.bind(this);
     this.handleMail = this.handleMail.bind(this);
@@ -22,11 +23,11 @@ export default class ContactRequest extends Component {
 
   handleName = text => {
     this.setState({ name: text });
-    console.log(text);
   };
   handlePhone = text => {
     this.setState({ phone: text });
   };
+
   handleMail = text => {
     this.setState({ mail: text });
   };
@@ -34,13 +35,23 @@ export default class ContactRequest extends Component {
     this.setState({ message: text });
   };
   onButtonPress = () => {
-    console.log(this.state.name);
-    Alert.alert(
-      "Randevu Talebi",
-      "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
-      [{ text: "Tamam" }]
-    );
-    this.setState({ name: "", phone: "", mail: "", message: "" });
+    if (
+      this.state.name != "" &&
+      this.state.phone != "" &&
+      this.state.mail != "" &&
+      this.state.message != ""
+    ) {
+      Alert.alert(
+        "Randevu Talebi",
+        "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+        [{ text: "Tamam" }]
+      );
+      this.setState({ name: "", phone: "", mail: "", message: "" });
+    } else {
+      Alert.alert("Randevu Talebi", "Tüm alanlar eksiksiz doldurulmalıdır.", [
+        { text: "Tamam" }
+      ]);
+    }
   };
   render() {
     return (

@@ -9,8 +9,7 @@ import {
 import { Input, Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HeaderBar from "../components/HeaderBar";
-import DateAppo from "../components/Date";
-
+import DatePicker from "react-native-datepicker";
 export default class Appointment extends Component {
   constructor() {
     super();
@@ -20,6 +19,7 @@ export default class Appointment extends Component {
       mail: "",
       message: "",
       date: "",
+      time: "Saatler",
       photoType: "Çekim Türü"
     };
     this.handleName = this.handleName.bind(this);
@@ -29,11 +29,11 @@ export default class Appointment extends Component {
     this.handleDate = this.handleDate.bind(this);
     this.handlePhotoType = this.handlePhotoType.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
+    this.handleTime = this.handleTime.bind(this);
   }
 
   handleName = text => {
     this.setState({ name: text });
-    console.log(text);
   };
   handlePhone = text => {
     this.setState({ phone: text });
@@ -49,22 +49,49 @@ export default class Appointment extends Component {
     this.setState({ date: text });
   };
 
+  handleTime = text => {
+    if (text != "Saatler") {
+      this.setState({
+        time: text
+      });
+    }
+  };
   handlePhotoType = text => {
     if (text != "Çekim Türü") {
-      console.log(text);
-
       this.setState({
         photoType: text
       });
     }
   };
   onButtonPress = () => {
-    console.log(this.state.name);
-    Alert.alert(
-      "Randevu Talebi",
-      "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
-      [{ text: "Tamam" }]
-    );
+    if (
+      this.state.name != "" &&
+      this.state.phone != "" &&
+      this.state.photoType != "Çekim Türü" &&
+      this.state.date != "" &&
+      this.state.time != "Saatler" &&
+      this.state.mail != "" &&
+      this.state.message != ""
+    ) {
+      Alert.alert(
+        "Randevu Talebi",
+        "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+        [{ text: "Tamam" }]
+      );
+      this.setState({
+        name: "",
+        phone: "",
+        mail: "",
+        message: "",
+        date: "",
+        time: "Saatler",
+        photoType: "Çekim Türü"
+      });
+    } else {
+      Alert.alert("Randevu Talebi", "Tüm alanlar eksiksiz doldurulmalıdır.", [
+        { text: "Tamam" }
+      ]);
+    }
   };
   render() {
     return (
@@ -98,13 +125,14 @@ export default class Appointment extends Component {
               leftIcon={<Icon name="phone" size={24} color="black" />}
             />
             <Input
-              onChangeText={this.mail}
+              onChangeText={this.handleMail}
               keyboardType="email-address"
               inputStyle={styles.inputStyle}
               inputContainerStyle={styles.inputContainerStyle}
               placeholder="Mail"
               leftIcon={<Icon name="at" size={24} color="black" />}
             />
+            {/*Textarea */}
             <Input
               blurOnSubmit={true}
               value={this.state.message}
@@ -117,6 +145,7 @@ export default class Appointment extends Component {
               placeholder="Mesajınız"
               leftIcon={<Icon name="envelope" size={24} color="black" />}
             />
+            {/**Dropdown  */}
             <View
               style={{
                 flexDirection: "row",
@@ -148,7 +177,90 @@ export default class Appointment extends Component {
                 <Picker.Item label="Nişan" value="Nişan"></Picker.Item>
               </Picker>
             </View>
-            <DateAppo />
+
+            {/**DatePicker */}
+            <View
+              style={{
+                flexDirection: "row",
+                borderBottomWidth: 2,
+                borderColor: "#bdc3c7",
+                width: "80%"
+              }}
+            >
+              <View style={{ marginTop: 10, marginRight: 30 }}>
+                <Icon name="calendar" size={24}></Icon>
+              </View>
+              <DatePicker
+                style={{ width: "40%" }}
+                date={this.state.date} //initial date from state
+                mode="date" //The enum of date, datetime and time
+                placeholder="Tarih"
+                format="DD.MM.YYYY"
+                confirmBtnText="Onayla"
+                cancelBtnText="İptal"
+                customStyles={{
+                  placeholderText: {
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "black",
+                    fontWeight: "200"
+                  },
+                  dateIcon: {
+                    // position: "absolute",
+                    // left: 0,
+                    // top: 4,
+                    // marginLeft: 0
+                    width: 0,
+                    height: 0
+                  },
+                  dateInput: {
+                    borderWidth: 0
+                  },
+                  dateText: {
+                    fontWeight: "200"
+                  }
+                }}
+                onDateChange={date => {
+                  this.handleDate(date);
+                }}
+              />
+            </View>
+
+            {/**Available times */}
+            <View
+              style={{
+                flexDirection: "row",
+                borderBottomWidth: 2,
+                borderColor: "#bdc3c7",
+                marginTop: 10,
+                width: "80%"
+              }}
+            >
+              <View style={{ marginRight: 40 }}>
+                <Icon name="clock-o" size={24}></Icon>
+              </View>
+              <Picker
+                style={{ width: 200, height: 20, marginLeft: 10 }}
+                selectedValue={this.state.time}
+                onValueChange={this.handleTime}
+              >
+                <Picker.Item label="Saatler" value="Saatler"></Picker.Item>
+                {/*Saatler API'den gelicek */}
+                <Picker.Item
+                  label="8.00-10.30"
+                  value="8.00-10.30"
+                ></Picker.Item>
+                <Picker.Item
+                  label="10.45-13.00"
+                  value="10.45-13.00"
+                ></Picker.Item>
+                <Picker.Item
+                  label="16.00-18.00"
+                  value="16.00-18.00"
+                ></Picker.Item>
+              </Picker>
+            </View>
+            {/*Button */}
             <Button
               buttonStyle={styles.buttonStyle}
               title="Randevu Al"

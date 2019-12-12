@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
-import { Header } from "react-native-elements";
+import { Text, StyleSheet, View, Image, Dimensions } from "react-native";
+import HeaderBar from "../components/HeaderBar";
 export default class Profile extends Component {
   constructor() {
     super();
@@ -13,33 +13,28 @@ export default class Profile extends Component {
   }
 
   render() {
+    const { height, width } = Dimensions.get("window");
     return (
-      <View>
+      <View
+        style={{
+          height: height,
+          width: width
+        }}
+      >
+        <HeaderBar />
+        <View style={{ alignItems: "center", marginTop: 10 }}>
+          <Text style={styles.name}>{this.state.user.name}</Text>
+        </View>
         <View
           style={{
             justifyContent: "center",
-            alignItems: "center",
-            marginTop: 20,
-            borderBottomWidth: 1,
-            borderBottomLeftRadius: 5,
-            borderBottomRightRadius: 5
+            height: "50%",
+            alignItems: "center"
           }}
         >
-          <Image
-            source={require("../../../assets/logov3.jpg")}
-            style={{
-              width: 70,
-              height: 70,
-              borderRadius: 5,
-              marginVertical: 2
-            }}
-          ></Image>
-        </View>
-        <View style={styles.TextContainer}>
-          <Text style={styles.name}>{this.state.user.name}</Text>
-        </View>
-        <View style={styles.ınformation}>
-          <Text>Fotoğraflarınız hazır olduğunda görüntülenecektir.</Text>
+          <Text style={styles.ınformation}>
+            Fotoğraflarınız hazır olduğunda burada görüntülenecektir
+          </Text>
         </View>
       </View>
     );
@@ -57,11 +52,10 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   ınformation: {
-    flexDirection: "column",
-    paddingHorizontal: 20,
-    paddingVertical: 100,
+    textAlign: "center",
+
     justifyContent: "center",
-    fontSize: 25,
-    fontWeight: "700"
+    fontSize: 15,
+    fontWeight: "100"
   }
 });
