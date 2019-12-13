@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
   },
   SliderContainer: {
     flexDirection: "row",
-    height: "60%"
+    height: "60%",
+    backgroundColor: "white"
   },
   Picker: {
     width: "40%",

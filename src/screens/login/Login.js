@@ -6,10 +6,12 @@ import {
   Text,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Dimensions
+  Dimensions,
+  ActionSheetIOS
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Actions } from "react-native-router-flux";
 
 export default class Login extends Component {
   constructor(props) {
@@ -20,6 +22,7 @@ export default class Login extends Component {
     };
     this.handleUserMail = this.handleUserMail.bind(this);
     this.handleUserPassword = this.handleUserPassword.bind(this);
+    this.login = this.login.bind(this);
   }
   handleUserMail = text => {
     if (text != "") {
@@ -35,7 +38,9 @@ export default class Login extends Component {
       });
     }
   };
-
+  login = () => {
+    // this.props.loginSuccess(true);
+  };
   render() {
     return (
       <KeyboardAvoidingView style={styles.Container}>
@@ -61,15 +66,15 @@ export default class Login extends Component {
             placeholder="Şifreniz"
             leftIcon={<Icon name="lock" size={24}></Icon>}
           ></Input>
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={() => {
-              this.props.updateSigned(true);
-            }}
-          >
+          <TouchableOpacity style={styles.loginButton} onPress={this.login}>
             <Text style={styles.loginButtonText}>Giriş</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.forgottenPassword}>
+          <TouchableOpacity
+            style={styles.forgottenPassword}
+            onPress={() => {
+              Actions.forgottenPassword();
+            }}
+          >
             <Text>Şİfremi Unuttum</Text>
           </TouchableOpacity>
         </View>
@@ -84,7 +89,8 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "white"
   },
   logoContainer: {
     justifyContent: "center",

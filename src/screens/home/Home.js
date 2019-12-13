@@ -8,7 +8,8 @@ import {
   Dimensions,
   Button,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -16,6 +17,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Headerbar from "../components/HeaderBar";
 import Map from "../components/Map";
 import Category from "../components/Category";
+import { Actions } from "react-native-router-flux";
 const { height, width } = Dimensions.get("window");
 export default class Home extends Component {
   render() {
@@ -23,9 +25,10 @@ export default class Home extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView scrollEventThrottle={16}>
+          <StatusBar backgroundColor="blue" barStyle="light-content" />
           <Headerbar />
           {/**Changing background color will change entire page color */}
-          <View style={{ flex: 1, backgroundColor: "white", marginTop: 10 }}>
+          <View style={{ flex: 1, backgroundColor: "white" }}>
             <Text
               style={{
                 marginTop: 15,
@@ -41,33 +44,25 @@ export default class Home extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                <TouchableOpacity
-                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
-                >
+                <TouchableOpacity onPress={() => Actions.works()}>
                   <Category
                     name="Dış Çekim"
                     imageUrl={require("../../../assets/home.jpg")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
-                >
+                <TouchableOpacity onPress={() => Actions.works()}>
                   <Category
                     name="Özel Günler"
                     imageUrl={require("../../../assets/experiences.jpg")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
-                >
+                <TouchableOpacity onPress={() => Actions.works()}>
                   <Category
                     name="Doğum"
                     imageUrl={require("../../../assets/restaurant.jpg")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => navigate("Örnekler", { name: "Örnekler" })}
-                >
+                <TouchableOpacity onPress={() => Actions.works()}>
                   <Category
                     name="Düğün-Nişan"
                     imageUrl={require("../../../assets/restaurant.jpg")}
@@ -106,7 +101,8 @@ export default class Home extends Component {
             >
               <TouchableOpacity
                 style={{ padding: 10 }}
-                onPress={() => navigate("Hesabım", { name: "Hesabım" })}
+                onPress={() => Actions.login()}
+                // onPress={() => navigate("Hesabım", { name: "Hesabım" })}
               >
                 <Text
                   style={{
@@ -123,7 +119,8 @@ export default class Home extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ padding: 10 }}
-                onPress={() => navigate("Randevu", { name: "Randevu" })}
+                //onPress={() => navigate("Randevu", { name: "Randevu" })}
+                onPress={() => Actions.appointment()}
               >
                 <Text
                   style={{

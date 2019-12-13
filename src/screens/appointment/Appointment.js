@@ -4,7 +4,8 @@ import {
   KeyboardAvoidingView,
   View,
   Picker,
-  Alert
+  Alert,
+  Dimensions
 } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -94,8 +95,13 @@ export default class Appointment extends Component {
     }
   };
   render() {
+    const { height, width } = Dimensions.get("window");
     return (
-      <KeyboardAvoidingView behavior="padding" enabled>
+      <KeyboardAvoidingView
+        behavior="padding"
+        enabled
+        style={{ backgroundColor: "white", height: height, width: width }}
+      >
         <View>
           <HeaderBar />
           <View

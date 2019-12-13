@@ -1,20 +1,27 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, Image, Dimensions } from "react-native";
 import HeaderBar from "../components/HeaderBar";
+import Login from "../login/Login";
 export default class Profile extends Component {
   constructor() {
     super();
     this.state = {
+      isLoginSuccess: false,
       user: {
         name: "Sefa ÇOTOĞLU",
         stateOfPhoto: 2
       }
     };
+    this.loginSuccess = this.loginSuccess.bind(this);
   }
-
+  loginSuccess = text => {
+    this.setState({
+      isLoginSuccess: text
+    });
+  };
   render() {
     const { height, width } = Dimensions.get("window");
-    return (
+    return this.state.isLoginSuccess ? (
       <View
         style={{
           height: height,
@@ -37,6 +44,8 @@ export default class Profile extends Component {
           </Text>
         </View>
       </View>
+    ) : (
+      <Login loginSuccess={this.loginSuccess} />
     );
   }
 }

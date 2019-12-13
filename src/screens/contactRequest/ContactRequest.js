@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, KeyboardAvoidingView, View, Alert } from "react-native";
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  View,
+  Alert,
+  Dimensions
+} from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HeaderBar from "../components/HeaderBar";
@@ -54,8 +60,13 @@ export default class ContactRequest extends Component {
     }
   };
   render() {
+    const { height, width } = Dimensions.get("window");
     return (
-      <KeyboardAvoidingView behavior="padding" enabled>
+      <KeyboardAvoidingView
+        behavior="padding"
+        enabled
+        style={{ backgroundColor: "white", height: height, width: width }}
+      >
         <View>
           <HeaderBar />
           <View
