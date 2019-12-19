@@ -28,7 +28,6 @@ export default class App extends Component {
           <Scene
             hideNavBar
             key="home"
-            initial
             component={Home}
             tabBarLabel="Anasayfa"
             icon={({ tintColor }) => (
@@ -55,8 +54,9 @@ export default class App extends Component {
             )}
           />
           <Scene
+            initial
             hideNavBar
-            key="account"
+            key="login"
             component={Profile}
             tabBarLabel="Hesabım"
             icon={({ tintColor }) => (
@@ -64,6 +64,7 @@ export default class App extends Component {
             )}
           />
         </Tabs>
+        <Scene type="replace" key="profile" tabs={true} component={Profile} />
         <Scene key="login" component={Login} />
         <Scene key="appointment" component={Appointment} />
         <Scene key="works" component={Works} />

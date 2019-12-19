@@ -10,7 +10,8 @@ export default class Category extends Component {
           width: 130,
           marginLeft: 20,
           borderWidth: 0.5,
-          borderColor: "#dddddd"
+          borderColor: "#dddddd",
+          borderRadius: 10
         }}
       >
         <View style={{ flex: 2 }}>
@@ -19,7 +20,9 @@ export default class Category extends Component {
               flex: 1,
               width: null,
               height: null,
-              resizeMode: "cover"
+              resizeMode: "cover",
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10
             }}
             source={this.props.imageUrl}
           ></Image>

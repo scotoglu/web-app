@@ -37,7 +37,6 @@ export default class Samples extends Component {
     }
   };
   render() {
-    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <HeaderBar />

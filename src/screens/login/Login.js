@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Dimensions,
-  ActionSheetIOS
+  AsyncStorage
 } from "react-native";
 import { Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Actions } from "react-native-router-flux";
-
+//import AsyncStorage from "@react-native-community/async-storage";
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,10 @@ export default class Login extends Component {
     this.handleUserMail = this.handleUserMail.bind(this);
     this.handleUserPassword = this.handleUserPassword.bind(this);
     this.login = this.login.bind(this);
+    this.userAlreadyLogin = this.userAlreadyLogin.bind(this);
+  }
+  componentDidMount() {
+    this.userAlreadyLogin();
   }
   handleUserMail = text => {
     if (text != "") {
@@ -38,8 +42,22 @@ export default class Login extends Component {
       });
     }
   };
-  login = () => {
-    // this.props.loginSuccess(true);
+
+  userAlreadyLogin = async () => {
+    try {
+      const value = await AsyncStorage.getItem("user");
+      if (value !== null) {
+        Actions.profile();
+      } else {
+        alert("Giriş Yapmalısınız");
+      }
+    } catch (error) {
+      console.log("User isn't login yet... ");
+    }
+  };
+  login = async () => {
+    await AsyncStorage.setItem("user", this.state.userMail);
+    Actions.profile();
   };
   render() {
     return (
