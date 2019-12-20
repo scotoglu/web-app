@@ -4,14 +4,15 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  Modal,
   FlatList,
   TouchableOpacity,
   Alert,
   TouchableHighlight,
   Image
 } from "react-native";
+import Modal from "react-native-modal";
 import HeaderBar from "../components/HeaderBar";
+import Swiper from "react-native-swiper";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class Profile extends Component {
       },
       images: [],
       modalVisible: false,
-      modalImage: require("../../../assets/logov3.jpg")
+      modalImageId: ""
     };
 
     this.createDatas = this.createDatas.bind(this);
@@ -58,9 +59,11 @@ export default class Profile extends Component {
   itemClicked = (visible, imageİd) => {
     this.setState({ modalVisible: visible });
     this.setState({
-      modalImage: this.state.images[imageİd]
+      modalImageId: imageİd
     });
-    console.log(this.state.images[imageİd]);
+    console.log(imageİd);
+    let width = Dimensions.get("screen").width;
+    console.log(width);
   };
 
   render() {
@@ -68,56 +71,68 @@ export default class Profile extends Component {
       <>
         <HeaderBar />
         <View>
-          <Text style={styles.UserInfo}>{this.state.user.name}</Text>
+          <Text style={styles.UserInfo}>Sayın, {this.state.user.name}</Text>
         </View>
         <View style={styles.ImageDisplayContainer}>
           {/**Modal */}
           <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() =>
-              Alert.alert("Modal", "Close Request", [
-                {
-                  text: "Tamam",
-                  onPress: () => {
-                    this.setModalVisible(false);
-                  }
-                }
-              ])
-            }
+            coverScreen={true}
+            isVisible={this.state.modalVisible}
+            onBackButtonPress={() => this.setModalVisible(false)}
           >
-            <View style={styles.modal}>
-              <TouchableHighlight onPress={() => this.setModalVisible(false)}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-              <View>
-                <Image
-                  style={{ height: "100%", width: "100%" }}
-                  source={this.state.modalImage}
-                ></Image>
-              </View>
+            <View style={styles.swipeContainer}>
+              <Swiper
+                showsButtons={false}
+                autoplay={false}
+                index={this.state.modalImageId}
+              >
+                {this.state.images.map(url => (
+                  <View
+                    key={url.id}
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Image
+                      resizeMode="stretch"
+                      resizeMethod="scale"
+                      style={{ height: "100%", width: "100%" }}
+                      source={url.value}
+                    ></Image>
+                  </View>
+                ))}
+              </Swiper>
             </View>
           </Modal>
 
           {/**FlatList */}
-          <FlatList
-            data={this.state.images}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => console.log(this.itemClicked(true, item.id))}
-              >
-                <View style={styles.item}>
-                  <Image
-                    style={{ height: 200, width: 150 }}
-                    source={item.value}
-                  ></Image>
-                </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item.id}
-            numColumns={2}
-          />
+          {this.state.images.length <= 0 ? (
+            <Text>Yükleniyor...</Text>
+          ) : (
+            <FlatList
+              data={this.state.images}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => console.log(this.itemClicked(true, item.id))}
+                >
+                  <View style={styles.item}>
+                    <Image
+                      resizeMethod="scale"
+                      style={{
+                        height: Dimensions.get("window").width / 2,
+                        width: Dimensions.get("window").width / 2
+                      }}
+                      source={item.value}
+                    ></Image>
+                  </View>
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => item.id}
+              numColumns={2}
+            />
+          )}
         </View>
       </>
     );
@@ -134,18 +149,16 @@ const styles = StyleSheet.create({
   },
   ImageDisplayContainer: {
     alignItems: "center",
-    borderColor: "green",
     borderWidth: 2
   },
-  item: {
-    borderColor: "black",
-    borderWidth: 2,
-    margin: 1,
-    justifyContent: "center"
-  },
+  item: {},
   modal: {
     justifyContent: "center",
     alignItems: "center"
   },
-  closeBtn: {}
+  swipeContainer: {
+    height: "100%",
+    backgroundColor: "white",
+    flexDirection: "row"
+  }
 });
