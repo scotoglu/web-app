@@ -6,9 +6,8 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
-  Alert,
-  TouchableHighlight,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import Modal from "react-native-modal";
 import HeaderBar from "../components/HeaderBar";
@@ -20,11 +19,10 @@ export default class Profile extends Component {
     this.state = {
       user: {
         name: "Sefa ÇOTOĞLU",
-        stateOfPhoto: 2
+        stateOfPhoto: 3
       },
       images: [],
-      modalVisible: false,
-      modalImageId: ""
+      modalVisible: false
     };
 
     this.createDatas = this.createDatas.bind(this);
@@ -44,7 +42,7 @@ export default class Profile extends Component {
     for (let index = 0; index < 20; index++) {
       tempData.push({
         id: index,
-        value: require("../../../assets/restaurant.jpg")
+        value: require("../../../assets/1.jpg")
       });
     }
 
@@ -61,17 +59,22 @@ export default class Profile extends Component {
     this.setState({
       modalImageId: imageİd
     });
-    console.log(imageİd);
-    let width = Dimensions.get("screen").width;
-    console.log(width);
   };
 
   render() {
+    const isImageReady = this.state.stateOfPhoto == 3 ? true : false;
     return (
       <>
         <HeaderBar />
         <View>
           <Text style={styles.UserInfo}>Sayın, {this.state.user.name}</Text>
+          {isImageReady ? (
+            <Text style={styles.WebAdress}>
+              Fotoğraflarınızı, web sitemizi ziyaret ederek indirebilirsiniz.
+            </Text>
+          ) : (
+            this.state.stateOfPhoto
+          )}
         </View>
         <View style={styles.ImageDisplayContainer}>
           {/**Modal */}
@@ -87,18 +90,9 @@ export default class Profile extends Component {
                 index={this.state.modalImageId}
               >
                 {this.state.images.map(url => (
-                  <View
-                    key={url.id}
-                    style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center"
-                    }}
-                  >
+                  <View key={parseInt(url.id)} style={styles.swiperImagesView}>
                     <Image
-                      resizeMode="stretch"
-                      resizeMethod="scale"
-                      style={{ height: "100%", width: "100%" }}
+                      style={styles.swiperImages}
                       source={url.value}
                     ></Image>
                   </View>
@@ -108,22 +102,27 @@ export default class Profile extends Component {
           </Modal>
 
           {/**FlatList */}
+
           {this.state.images.length <= 0 ? (
-            <Text>Yükleniyor...</Text>
+            <View style={styles.activityIndicatorView}>
+              <ActivityIndicator
+                size="large"
+                color="#95a5a6"
+              ></ActivityIndicator>
+              <Text>Yükleniyor</Text>
+            </View>
           ) : (
             <FlatList
+              contentContainerStyle={{ paddingBottom: "35%" }}
               data={this.state.images}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  onPress={() => console.log(this.itemClicked(true, item.id))}
+                  onPress={() => this.itemClicked(true, item.id)}
                 >
                   <View style={styles.item}>
                     <Image
                       resizeMethod="scale"
-                      style={{
-                        height: Dimensions.get("window").width / 2,
-                        width: Dimensions.get("window").width / 2
-                      }}
+                      style={styles.flatListImage}
                       source={item.value}
                     ></Image>
                   </View>
@@ -138,7 +137,6 @@ export default class Profile extends Component {
     );
   }
 }
-const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   UserInfo: {
@@ -149,7 +147,7 @@ const styles = StyleSheet.create({
   },
   ImageDisplayContainer: {
     alignItems: "center",
-    borderWidth: 2
+    borderWidth: 0
   },
   item: {},
   modal: {
@@ -160,5 +158,30 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "white",
     flexDirection: "row"
+  },
+  WebAdress: {
+    fontSize: 12,
+    fontWeight: "300",
+    margin: 2,
+    textAlign: "center"
+  },
+  swiperImagesView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  swiperImages: {
+    height: "100%",
+    width: "100%"
+  },
+  activityIndicatorView: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "50%",
+    width: "100%"
+  },
+  flatListImage: {
+    height: Dimensions.get("window").width / 2,
+    width: Dimensions.get("window").width / 2
   }
 });

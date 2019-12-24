@@ -69,13 +69,7 @@ export default class ContactRequest extends Component {
       >
         <View>
           <HeaderBar />
-          <View
-            style={{
-              paddingHorizontal: 20,
-              marginTop: 10,
-              alignItems: "center"
-            }}
-          >
+          <View style={styles.container}>
             <Text h3 style={styles.title}>
               İletişim Talebi
             </Text>
@@ -132,7 +126,7 @@ export default class ContactRequest extends Component {
 }
 
 const styles = StyleSheet.create({
-  // container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: { paddingHorizontal: 20, marginTop: 10, alignItems: "center" },
   inputContainerStyle: { marginBottom: 5, marginLeft: 10, marginRight: 10 },
   inputStyle: {
     marginLeft: 5

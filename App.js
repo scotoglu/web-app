@@ -26,6 +26,7 @@ export default class App extends Component {
       <Stack key="root" hideNavBar>
         <Tabs showLabel={true} swipeEnabled={true}>
           <Scene
+            initial
             hideNavBar
             key="home"
             component={Home}
@@ -54,7 +55,6 @@ export default class App extends Component {
             )}
           />
           <Scene
-            initial
             hideNavBar
             key="login"
             component={Profile}
