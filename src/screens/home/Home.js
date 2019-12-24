@@ -9,7 +9,8 @@ import {
   Button,
   Text,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  BackHandler
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -20,8 +21,17 @@ import Category from "../components/Category";
 import { Actions } from "react-native-router-flux";
 const { height, width } = Dimensions.get("window");
 export default class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.backButtonPress = this.backButtonPress.bind(this);
+  }
+
+  backButtonPress = () => {
+    console.log("BackButton pressed...");
+    BackHandler.exitApp();
+    return true;
+  };
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView scrollEventThrottle={16}>
@@ -37,25 +47,33 @@ export default class Home extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                <TouchableOpacity onPress={() => Actions.works()}>
+                <TouchableOpacity
+                  onPress={() => Actions.works({ text: "Dış Çekim" })}
+                >
                   <Category
                     name="Dış Çekim"
                     imageUrl={require("../../../assets/home.jpg")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Actions.works()}>
+                <TouchableOpacity
+                  onPress={() => Actions.works({ text: "Özel Günler" })}
+                >
                   <Category
                     name="Özel Günler"
                     imageUrl={require("../../../assets/experiences.jpg")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Actions.works()}>
+                <TouchableOpacity
+                  onPress={() => Actions.works({ text: "Doğum" })}
+                >
                   <Category
                     name="Doğum"
                     imageUrl={require("../../../assets/restaurant.jpg")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Actions.works()}>
+                <TouchableOpacity
+                  onPress={() => Actions.works({ text: "Düğün-Nişan" })}
+                >
                   <Category
                     name="Düğün-Nişan"
                     imageUrl={require("../../../assets/restaurant.jpg")}
@@ -105,7 +123,9 @@ export default class Home extends Component {
               </View>
               <View style={{ flexDirection: "row", marginTop: 3 }}>
                 <Icon name="phone" size={25}></Icon>
-                <Text style={styles.contactContentPhoneText}>05065151290</Text>
+                <Text style={styles.contactContentPhoneText}>
+                  +905065151290
+                </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 3 }}>
                 <Icon name="instagram" size={25}></Icon>

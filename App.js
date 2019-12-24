@@ -24,7 +24,7 @@ export default class App extends Component {
   render() {
     const scenes = Actions.create(
       <Stack key="root" hideNavBar>
-        <Tabs showLabel={true} swipeEnabled={true}>
+        <Tabs showLabel={true}>
           <Scene
             initial
             hideNavBar
@@ -56,7 +56,7 @@ export default class App extends Component {
           />
           <Scene
             hideNavBar
-            key="login"
+            key="profile"
             component={Profile}
             tabBarLabel="Hesabım"
             icon={({ tintColor }) => (
@@ -64,9 +64,8 @@ export default class App extends Component {
             )}
           />
         </Tabs>
-        <Scene type="replace" key="profile" tabs={true} component={Profile} />
+
         <Scene key="login" component={Login} />
-        <Scene key="appointment" component={Appointment} />
         <Scene key="works" component={Works} />
         <Scene key="forgottenPassword" component={ForgottenPassword} />
         {/* <Scene key="forgottenPassword" component={ForgottenPassword}/>

@@ -7,19 +7,30 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  SafeAreaView,
+  AsyncStorage
 } from "react-native";
 import Modal from "react-native-modal";
 import HeaderBar from "../components/HeaderBar";
 import Swiper from "react-native-swiper";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Actions } from "react-native-router-flux";
 
 export default class Profile extends Component {
+  PhotoProgress = [
+    "Çekim Bekleniyor...",
+    "Fotoğraflar Hazırlanıyor...",
+    "Kontrol Yapılıyor...",
+    "Yüklenmesi Bekleniyor..."
+  ];
   constructor(props) {
     super(props);
     this.state = {
       user: {
         name: "Sefa ÇOTOĞLU",
-        stateOfPhoto: 3
+        //state of ımages 0, 1, 2 and  3.
+        stateOfPhoto: "3"
       },
       images: [],
       modalVisible: false
@@ -28,15 +39,49 @@ export default class Profile extends Component {
     this.createDatas = this.createDatas.bind(this);
     this.itemClicked = this.itemClicked.bind(this);
     this.fetchImages = this.fetchImages.bind(this);
+    this.listEmpty = this.listEmpty.bind(this);
+    this.signOut = this.signOut.bind(this);
+    this.userAlreadylogin = this.userAlreadylogin.bind(this);
+    this.test = this.test.bind(this);
   }
-
-  fetchImages = () => {
-    //request to Api for images
-  };
 
   componentDidMount() {
+    this.userAlreadylogin();
     this.createDatas();
+    // this.test();
   }
+
+  userAlreadylogin = async () => {
+    //I'll check with jwt token after the api request
+    try {
+      console.log("Profile userAlreadyLogin Ok...");
+
+      const logKey = await AsyncStorage.getItem("mail");
+      if (logKey != null) {
+        return null;
+      } else {
+        Actions.login();
+      }
+    } catch (error) {
+      console.log("Profile userAlreadyLogin control  " + error);
+    }
+  };
+  fetchImages = () => {
+    //request to Api for images
+    if (this.state.user.stateOfPhoto === "3") {
+      /**
+       * 
+       * 
+       * 
+       * 
+       
+      this.setState({
+        images:gelenResimler
+      })*/
+    }
+  };
+
+  //sample data for test
   createDatas = () => {
     tempData = [];
     for (let index = 0; index < 20; index++) {
@@ -50,10 +95,11 @@ export default class Profile extends Component {
       images: tempData
     });
   };
-
+  //Open and close modal
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
+  //open and start modal swiper from selected image as image id.
   itemClicked = (visible, imageİd) => {
     this.setState({ modalVisible: visible });
     this.setState({
@@ -61,20 +107,56 @@ export default class Profile extends Component {
     });
   };
 
+  //test function for outputs
+  test = () => {
+    let index = parseInt(this.state.stateOfPhoto);
+    this.PhotoProgress[parseInt(this.state.stateOfPhoto)];
+    console.log(index);
+  };
+
+  //if flatlist data not fill yet,then func will work from FlatList > ListEmptyComponent.
+  listEmpty = () => {
+    return (
+      <View style={styles.activityIndicatorView}>
+        <ActivityIndicator size="large" color="#95a5a6"></ActivityIndicator>
+        <Text>Yükleniyor</Text>
+      </View>
+    );
+  };
+
+  signOut = async () => {
+    console.log("Clicked....");
+
+    try {
+      await AsyncStorage.removeItem("mail");
+      Actions.login();
+    } catch (error) {}
+  };
   render() {
-    const isImageReady = this.state.stateOfPhoto == 3 ? true : false;
+    const isImageReady = this.state.user.stateOfPhoto === "3" ? true : false;
     return (
       <>
         <HeaderBar />
         <View>
-          <Text style={styles.UserInfo}>Sayın, {this.state.user.name}</Text>
-          {isImageReady ? (
-            <Text style={styles.WebAdress}>
-              Fotoğraflarınızı, web sitemizi ziyaret ederek indirebilirsiniz.
-            </Text>
-          ) : (
-            this.state.stateOfPhoto
-          )}
+          <View style={styles.TopLeftSide}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.UserInfo}>Sayın {this.state.user.name}</Text>
+              <TouchableOpacity style={styles.ExitIcon} onPress={this.signOut}>
+                <Icon name="times-circle" size={25}></Icon>
+              </TouchableOpacity>
+            </View>
+            {isImageReady ? (
+              <Text style={styles.WebAdress}>
+                Fotoğraflarınızı, web sitemizi ziyaret ederek indirebilirsiniz.
+              </Text>
+            ) : // <Text style={styles.WebAdress}>
+            //   {this.PhotoProgress[parseInt(this.state.user.stateOfPhoto)]}
+            // </Text>
+            null}
+          </View>
+          {/* <View style={styles.TopRightSide}>
+            <Icon name="times-circle" size={24} color="red" />
+          </View> */}
         </View>
         <View style={styles.ImageDisplayContainer}>
           {/**Modal */}
@@ -103,34 +185,65 @@ export default class Profile extends Component {
 
           {/**FlatList */}
 
-          {this.state.images.length <= 0 ? (
-            <View style={styles.activityIndicatorView}>
-              <ActivityIndicator
-                size="large"
-                color="#95a5a6"
-              ></ActivityIndicator>
-              <Text>Yükleniyor</Text>
-            </View>
+          {isImageReady ? (
+            <SafeAreaView
+              style={{
+                alignItems: "center",
+                padding: 10,
+                backgroundColor: "white"
+              }}
+            >
+              <FlatList
+                ListEmptyComponent={() => this.listEmpty()}
+                contentContainerStyle={{
+                  paddingBottom: "35%"
+                }}
+                data={this.state.images}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => this.itemClicked(true, item.id)}
+                  >
+                    <View style={styles.flatListImageView}>
+                      <Image
+                        resizeMethod="scale"
+                        style={styles.flatListImage}
+                        source={item.value}
+                      ></Image>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                keyExtractor={item => item.id}
+                numColumns={2}
+              />
+            </SafeAreaView>
           ) : (
-            <FlatList
-              contentContainerStyle={{ paddingBottom: "35%" }}
-              data={this.state.images}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => this.itemClicked(true, item.id)}
-                >
-                  <View style={styles.item}>
-                    <Image
-                      resizeMethod="scale"
-                      style={styles.flatListImage}
-                      source={item.value}
-                    ></Image>
-                  </View>
-                </TouchableOpacity>
-              )}
-              keyExtractor={item => item.id}
-              numColumns={2}
-            />
+            <>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 12,
+                  fontWeight: "100",
+                  marginTop: 10
+                }}
+              >
+                Fotoğraflarınız hazır olunca, burada görüntülencektir. Yüklenene
+                kadar durumunu burada takip edebilirsiniz.
+              </Text>
+              <View style={styles.stepsOfPhotoView}>
+                {this.PhotoProgress.map((steps, index) => (
+                  <Text
+                    key={index}
+                    style={
+                      index <= parseInt(this.state.user.stateOfPhoto)
+                        ? styles.activeStep
+                        : styles.inactiveSteps
+                    }
+                  >
+                    {steps}
+                  </Text>
+                ))}
+              </View>
+            </>
           )}
         </View>
       </>
@@ -139,6 +252,16 @@ export default class Profile extends Component {
 }
 
 const styles = StyleSheet.create({
+  TopLeftSide: {
+    width: "100%",
+    backgroundColor: "#ecf0f1",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  ExitIcon: {
+    marginLeft: 40
+  },
+
   UserInfo: {
     fontSize: 20,
     fontStyle: "italic",
@@ -149,7 +272,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 0
   },
-  item: {},
+  flatListImageView: {
+    margin: 1
+  },
+  flatListImage: {
+    height: Dimensions.get("window").width / 2,
+    width: Dimensions.get("window").width / 2 - 10,
+    borderRadius: 20
+  },
   modal: {
     justifyContent: "center",
     alignItems: "center"
@@ -178,10 +308,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "50%",
-    width: "100%"
+    width: "100%",
+    marginTop: 30
   },
-  flatListImage: {
-    height: Dimensions.get("window").width / 2,
-    width: Dimensions.get("window").width / 2
+
+  stepsOfPhotoView: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "80%",
+    width: null
+  },
+  activeStep: {
+    fontSize: 20,
+    fontWeight: "400",
+    color: "green"
+  },
+  inactiveSteps: {
+    fontSize: 15,
+    fontWeight: "400",
+    color: "red"
   }
 });

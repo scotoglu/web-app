@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Picker, Image } from "react-native";
+import { StyleSheet, View, Picker, Image, Text } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import Swiper from "react-native-swiper";
 export default class Samples extends Component {
@@ -7,25 +7,18 @@ export default class Samples extends Component {
     super(props);
     this.state = {
       selectedValue: "Örnek Seçiniz",
-      images: [
-        {
-          Nisan: {
-            //Fotograf
-          },
-          Dogum: {
-            //Fotograf
-          },
-          DısCekim: {
-            //Fotograf
-          }
-        }
-      ],
-      samples: []
+      samples: [],
+      sampleType: ""
     };
     this.handlePickerChoice = this.handlePickerChoice.bind(this);
     this.createDatas = this.createDatas.bind(this);
+    this.whichImagesSample = this.whichImagesSample.bind(this);
   }
   componentDidMount() {
+    this.setState({
+      sampleType: this.props.text
+    });
+    this.whichImagesSample();
     this.createDatas();
   }
   handlePickerChoice = text => {
@@ -47,11 +40,50 @@ export default class Samples extends Component {
       samples: tempData
     });
   };
+
+  whichImagesSample = () => {
+    switch (this.state.sampleType) {
+      case "Özel Günler":
+        /**
+         * api request
+         *
+         * this.setState({samples:response})
+         */
+        break;
+      case "Doğum":
+        /**
+         * api request
+         * this.setState({samples:response})
+         *  */
+
+        break;
+
+      case "Düğün":
+        /**
+         * api request
+         *
+         * this.setState({samples:response})
+         */
+        break;
+
+      case "Nişan":
+        /**
+         *
+         * api request
+         *
+         * this.setState({samples:response})
+         */
+        break;
+
+      default:
+        break;
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
         <HeaderBar />
-        <View style={styles.PickerContainer}>
+        {/* <View style={styles.PickerContainer}>
           <Picker
             style={styles.Picker}
             selectedValue={this.state.selectedValue}
@@ -63,8 +95,14 @@ export default class Samples extends Component {
             <Picker.Item label="Dış Çekim" value="Dış Çekim" />
             <Picker.Item label="Özel Günler" value="Özel Günler" />
           </Picker>
+        </View> */}
+
+        <View style={styles.topTextView}>
+          <Text style={styles.topText}>
+            {this.props.text} Örneklerini Görüntülemektesiniz.
+          </Text>
         </View>
-        <View style={styles.SliderContainer}>
+        <View style={styles.SwiperContainer}>
           <Swiper showsButtons={true} autoplay={true} style={styles.wrapper}>
             {/*this.state.images.map()... buraya bastırılacak. 
             <View>
@@ -87,25 +125,25 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column"
   },
-  PickerContainer: {
-    textAlign: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    borderColor: "black",
-    borderWidth: 2,
-    height: "10%",
-    flexDirection: "row",
-    backgroundColor: "#ecf0f1"
-  },
-  SliderContainer: {
+  // PickerContainer: {
+  //   textAlign: "center",
+  //   flexDirection: "row",
+  //   justifyContent: "center",
+  //   borderColor: "black",
+  //   borderWidth: 2,
+  //   height: "10%",
+  //   flexDirection: "row",
+  //   backgroundColor: "#ecf0f1"
+  // },
+  SwiperContainer: {
     flexDirection: "row",
     height: "77%",
     backgroundColor: "white"
   },
-  Picker: {
-    width: "40%",
-    height: 30
-  },
+  // Picker: {
+  //   width: "40%",
+  //   height: 30
+  // },
   swiperImagesView: {
     flex: 1,
     justifyContent: "center",
@@ -114,5 +152,14 @@ const styles = StyleSheet.create({
   swiperImages: {
     height: "100%",
     width: "100%"
+  },
+  topTextView: {
+    padding: 5
+  },
+  topText: {
+    padding: 5,
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "300"
   }
 });

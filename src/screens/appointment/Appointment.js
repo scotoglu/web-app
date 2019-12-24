@@ -5,7 +5,8 @@ import {
   View,
   Picker,
   Alert,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -31,6 +32,7 @@ export default class Appointment extends Component {
     this.handlePhotoType = this.handlePhotoType.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
     this.handleTime = this.handleTime.bind(this);
+    this.sendUserRequest = this.sendUserRequest.bind(this);
   }
 
   handleName = text => {
@@ -57,6 +59,7 @@ export default class Appointment extends Component {
       });
     }
   };
+
   handlePhotoType = text => {
     if (text != "Çekim Türü") {
       this.setState({
@@ -64,6 +67,7 @@ export default class Appointment extends Component {
       });
     }
   };
+
   onButtonPress = () => {
     if (
       this.state.name != "" &&
@@ -74,11 +78,17 @@ export default class Appointment extends Component {
       this.state.mail != "" &&
       this.state.message != ""
     ) {
-      Alert.alert(
-        "Randevu Talebi",
-        "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
-        [{ text: "Tamam" }]
-      );
+      Platform.OS === "ios"
+        ? AlertIOS.alert(
+            "Randevu Talebi",
+            "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+            [{ text: "Tamam" }]
+          )
+        : Alert.alert(
+            "Randevu Talebi",
+            "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+            [{ text: "Tamam" }]
+          );
       this.setState({
         name: "",
         phone: "",
@@ -89,28 +99,32 @@ export default class Appointment extends Component {
         photoType: "Çekim Türü"
       });
     } else {
-      Alert.alert("Randevu Talebi", "Tüm alanlar eksiksiz doldurulmalıdır.", [
-        { text: "Tamam" }
-      ]);
+      Platform.OS === "ios"
+        ? AlertIOS.alert(
+            "Randevu Talebi",
+            "Tüm alanlar eksiksiz doldurulmalıdır.",
+            [{ text: "Tamam" }]
+          )
+        : Alert.alert(
+            "Randevu Talebi",
+            "Tüm alanlar eksiksiz doldurulmalıdır.",
+            [{ text: "Tamam" }]
+          );
     }
   };
+
+  sendUserRequest = () => {
+    /**
+     * sending user request to api
+     */
+  };
+
   render() {
-    const { height, width } = Dimensions.get("window");
     return (
-      <KeyboardAvoidingView
-        behavior="padding"
-        enabled
-        style={{ backgroundColor: "white", height: height, width: width }}
-      >
+      <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
         <View>
           <HeaderBar />
-          <View
-            style={{
-              paddingHorizontal: 20,
-              marginTop: 10,
-              alignItems: "center"
-            }}
-          >
+          <View style={styles.componentContainer}>
             <Text h3 style={styles.title}>
               Randevu Talebi
             </Text>
@@ -152,27 +166,16 @@ export default class Appointment extends Component {
               leftIcon={<Icon name="envelope" size={24} color="black" />}
             />
             {/**Dropdown  */}
-            <View
-              style={{
-                flexDirection: "row",
-                borderBottomWidth: 2,
-                borderColor: "#bdc3c7"
-              }}
-            >
+            <View style={styles.dropdownView}>
               <Icon
                 name="chevron-down"
                 size={24}
-                style={{ marginRight: "13%", marginTop: 5 }}
+                style={styles.pickerIcon}
               ></Icon>
               <Picker
                 selectedValue={this.state.photoType}
                 onValueChange={this.handlePhotoType}
-                style={{
-                  width: "60%",
-                  height: 40,
-                  borderBottomWidth: 2,
-                  marginBottom: 2
-                }}
+                style={styles.picker}
               >
                 <Picker.Item
                   label="Çekim Türü"
@@ -185,15 +188,8 @@ export default class Appointment extends Component {
             </View>
 
             {/**DatePicker */}
-            <View
-              style={{
-                flexDirection: "row",
-                borderBottomWidth: 2,
-                borderColor: "#bdc3c7",
-                width: "80%"
-              }}
-            >
-              <View style={{ marginTop: 10, marginRight: 30 }}>
+            <View style={styles.datePickerView}>
+              <View style={styles.iconView}>
                 <Icon name="calendar" size={24}></Icon>
               </View>
               <DatePicker
@@ -233,20 +229,12 @@ export default class Appointment extends Component {
             </View>
 
             {/**Available times */}
-            <View
-              style={{
-                flexDirection: "row",
-                borderBottomWidth: 2,
-                borderColor: "#bdc3c7",
-                marginTop: 10,
-                width: "80%"
-              }}
-            >
+            <View style={styles.avaliableTimesView}>
               <View style={{ marginRight: 40 }}>
                 <Icon name="clock-o" size={24}></Icon>
               </View>
               <Picker
-                style={{ width: 200, height: 20, marginLeft: 10 }}
+                style={styles.avaliableTimesPicker}
                 selectedValue={this.state.time}
                 onValueChange={this.handleTime}
               >
@@ -278,9 +266,17 @@ export default class Appointment extends Component {
     );
   }
 }
+const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: { backgroundColor: "white", height: height, width: width },
+
+  componentContainer: {
+    paddingHorizontal: 20,
+    marginTop: 10,
+    alignItems: "center"
+  },
+
   inputContainerStyle: {
     marginBottom: 5,
     marginLeft: 10,
@@ -297,5 +293,42 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 5,
     marginTop: 5
+  },
+  dropdownView: {
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderColor: "#bdc3c7"
+  },
+  picker: {
+    width: "60%",
+    height: 40,
+    borderBottomWidth: 2,
+    marginBottom: 2
+  },
+  pickerIcon: {
+    marginRight: "13%",
+    marginTop: 5
+  },
+  datePickerView: {
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderColor: "#bdc3c7",
+    width: "80%"
+  },
+  iconView: {
+    marginTop: 10,
+    marginRight: 30
+  },
+  avaliableTimesView: {
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderColor: "#bdc3c7",
+    marginTop: 10,
+    width: "80%"
+  },
+  avaliableTimesPicker: {
+    width: 200,
+    height: 20,
+    marginLeft: 10
   }
 });

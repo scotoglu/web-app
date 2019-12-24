@@ -4,7 +4,8 @@ import {
   KeyboardAvoidingView,
   View,
   Alert,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -25,6 +26,7 @@ export default class ContactRequest extends Component {
     this.handleMail = this.handleMail.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
+    this.sendUserRequest = this.sendUserRequest.bind(this);
   }
 
   handleName = text => {
@@ -47,17 +49,38 @@ export default class ContactRequest extends Component {
       this.state.mail != "" &&
       this.state.message != ""
     ) {
-      Alert.alert(
-        "Randevu Talebi",
-        "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
-        [{ text: "Tamam" }]
-      );
+      Platform.OS === "ios"
+        ? AlertIOS.alert(
+            "İletişim Talebi",
+            "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+            [{ text: "Tamam" }]
+          )
+        : Alert.alert(
+            "İletişim Talebi",
+            "Talebiniz başarıyla iletilmiştir. En kısa sürede tarafınıza dönüş yapılacaktır",
+            [{ text: "Tamam" }]
+          );
       this.setState({ name: "", phone: "", mail: "", message: "" });
     } else {
-      Alert.alert("Randevu Talebi", "Tüm alanlar eksiksiz doldurulmalıdır.", [
-        { text: "Tamam" }
-      ]);
+      Platform.OS === "ios"
+        ? AlertIOS.alert(
+            "İletişim Talebi",
+            "Tüm alanlar eksiksiz doldurulmalıdır.",
+            [{ text: "Tamam" }]
+          )
+        : Alert.alert(
+            "İletişim Talebi",
+            "Tüm alanlar eksiksiz doldurulmalıdır.",
+            [{ text: "Tamam" }]
+          );
     }
+  };
+
+  sendUserRequest = () => {
+    /**
+     * sending datas to server
+     *
+     */
   };
   render() {
     const { height, width } = Dimensions.get("window");

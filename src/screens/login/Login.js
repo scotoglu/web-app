@@ -44,20 +44,32 @@ export default class Login extends Component {
   };
 
   userAlreadyLogin = async () => {
+    const logKey = await AsyncStorage.getItem("mail");
     try {
-      const value = await AsyncStorage.getItem("user");
-      if (value !== null) {
+      if (logKey != null) {
         Actions.profile();
-      } else {
-        alert("Giriş Yapmalısınız");
       }
+      return null;
     } catch (error) {
-      console.log("User isn't login yet... ");
+      console.log("Login userAlreadyLogin control.  " + error);
     }
   };
   login = async () => {
-    await AsyncStorage.setItem("user", this.state.userMail);
-    Actions.profile();
+    const logKey = await AsyncStorage.getItem("mail");
+    try {
+      if (this.state.userMail === logKey) {
+        Actions.profile();
+      } else {
+        alert("Wrong user...");
+        if (logKey === null) {
+          await AsyncStorage.setItem("mail", this.state.userMail);
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.log("Login userAlreadyLogin control.  " + error);
+    }
   };
   render() {
     return (
@@ -93,7 +105,15 @@ export default class Login extends Component {
               Actions.forgottenPassword();
             }}
           >
-            <Text>Şİfremi Unuttum</Text>
+            <Text>Şifremi Unuttum</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.forgottenPassword}
+            onPress={() => {
+              Actions.home();
+            }}
+          >
+            <Text>Anasayfa</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
